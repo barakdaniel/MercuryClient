@@ -11,7 +11,7 @@ import { HttpService } from "./http.service";
 export class AuthService {
 
     loggedUserData: LoggedUserData;
-    loggedUserData$ = new BehaviorSubject<LoggedUserData>(this.loggedUserData);
+    loggedUserData$: BehaviorSubject<LoggedUserData>
     currentUserToken: string;
     userLoggedIn: boolean = false;
 
@@ -20,8 +20,9 @@ export class AuthService {
     login(user) {
         this.httpService.post('Authenticate', user).subscribe(res => {
             this.loggedUserData = res;
+            this.loggedUserData$ = new BehaviorSubject<LoggedUserData>(this.loggedUserData);
             if (this.loggedUserData)
-                this.initUserData();
+                this.initUserData(this.loggedUserData);
         },
             error => {
                 console.log(error);

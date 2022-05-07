@@ -1,0 +1,20 @@
+<h1>Hello {{firstname}}</h1>
+<div class="row justify-content-md-center border-bottom">
+    <div class="col-sm-3 text-center">
+        <button class="mt-4" mat-raised-button color="Primary" (click)="createResearch()">Create Research</button>
+    </div>
+    <div class="col-sm-3 text-center">
+        <mat-form-field appearance="standard">
+            <mat-label>Research Name</mat-label>
+            <input id="researchname" [(ngModel)]="search_filter" (ngModelChange)="onSearchChange($event)" matInput>
+        </mat-form-field>
+    </div>
+</div>
+<div class="mt-5" *ngIf="researches">
+    <div *ngFor="let research of researches_filtered">
+        <p>research: {{research.research_name}}</p>
+    </div>
+</div>
+<div class="mt-5" *ngIf="!researches">
+    <p>No researches, create a new one.</p>
+</div>

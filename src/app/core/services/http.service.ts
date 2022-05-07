@@ -8,7 +8,7 @@ import { Observable } from "rxjs";
 export class HttpService {
 
     userToken: string;
-    endPoint: string; //Add endPoint
+    endPoint: string = 'http://localhost:8000/api/'
     headers = new HttpHeaders({
         'Content-Type': 'application/json'
     });
@@ -33,17 +33,19 @@ export class HttpService {
             body: obj
         }
         return this.http.delete(`${this.endPoint}${entity}`, options);
+    } 
+
+    setUserData(data) {
+        localStorage.setItem('first_name', data.first_name);
     }
 
-    setHeaders(userToken: string) {
-        this.headers = this.headers.set('UserToken', userToken);
+    setUserToken(userToken: string) {
+        this.userToken = userToken;
+        this.headers = this.headers.set('X-CSRFToken', userToken);
+        localStorage.setItem('Token', this.userToken);
     }
-
-    setUserToken() {
-        sessionStorage.setItem('UserToken', this.userToken);
-    }
-
+    
     checkForUserToken() {
-        return sessionStorage.getItem('UserToken');
+        return localStorage.getItem('Token');
     }
 }

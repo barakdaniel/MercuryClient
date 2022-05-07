@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AuthService } from '../core/services/auth.service';
 
@@ -15,21 +16,14 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]),
   });
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
 
   }
 
   submit() {
-    console.log(this.form.value);
-    //this.authService.login()
+    this.authService.login(this.form.value);
   }
 
-  get username() {
-    return this.form.get('username');
-  }
-  get password() {
-    return this.form.get('password');
-  }
 }

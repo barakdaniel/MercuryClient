@@ -1,11 +1,10 @@
-<div class="text-center mt-5">
+<div class="my-container text-center mt-5">
     <h2>Login</h2>
-    <form [formGroup]="form">
+    <form [formGroup]="form" >
         <p>
             <mat-form-field appearance="standard">
-                <mat-label>Username</mat-label>
+                <mat-label>Email</mat-label>
                 <input id="username" formControlName="username" matInput>
-                <mat-hint>Letters only</mat-hint>
             </mat-form-field>
         </p>
         <p>
@@ -17,4 +16,7 @@
         </p>
         <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Login</button>
     </form>
+    <div class="border-top mt-2">
+        <p class="mt-2">Don't have an account? <a href="/register">Sign up</a></p>
+    </div>
 </div>

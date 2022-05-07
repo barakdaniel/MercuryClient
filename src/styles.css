@@ -1,4 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body,
+app-root {
+    height: 100%;
+}
+
+body {
+    margin-bottom: 0;
+    margin-top: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+
+.mat-submitBtn {
+    color: green;
+    background-color: green;
+    color: #fff;
+}
+
+.content-outer-container{
+    min-height: 100%;
+}
+
+.my-container {
+    max-width: 500px;
+    margin: 30px auto;
+    overflow: auto;
+    min-height: 300px;
+    border: 1px solid steelblue;
+    padding: 30px;
+    border-radius: 5px;
+}

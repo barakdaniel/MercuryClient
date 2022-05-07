@@ -1,0 +1,46 @@
+<div class="my-container text-center mt-5">
+    <h2>Sign up!</h2>
+    <div *ngIf="formInvalid">
+        <h3 class="text-danger">One of the field is not valid</h3>
+    </div>
+    <form [formGroup]="form" >
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Email</mat-label>
+                <input id="email" type="email" formControlName="email" matInput>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>First name</mat-label>
+                <input id="first_name" formControlName="first_name"matInput>
+                <mat-hint>Letters only</mat-hint>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Last name</mat-label>
+                <input id="last_name" formControlName="last_name"matInput>
+                <mat-hint>Letters only</mat-hint>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Password</mat-label>
+                <input id="password" type="password" formControlName="password" matInput>
+                <mat-hint>8-12 characters password</mat-hint>
+            </mat-form-field>
+        </p>
+        <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Confirm password</mat-label>
+                <input id="confirmpassword" type="password" formControlName="confirmpassword" matInput>
+                <mat-hint>Must match password<br> 8-12 characters password</mat-hint>
+            </mat-form-field>
+        </p>
+        <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">submit</button>
+    </form>
+    <div class="border-top mt-2">
+        <p class="mt-2">Already have an account? <a href="/login">Login</a></p>
+    </div>
+</div>

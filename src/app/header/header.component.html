@@ -1,13 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <ul class="navbar-nav w-100 me-auto mb-2 mb-lg-0 align-items-center h4">
+        <ul class="navbar-nav w-100 me-auto mb-2 mb-lg-0 align-items-center h4" *ngIf="(isAuth | async)" >
             <li class="align-middle">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" [routerLink]="['/']">
                     <img src="../../assets/logo-and-branding/mercury-logo.png" alt="mercury-logo" height="128">
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Researches</a>
@@ -17,6 +14,19 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Account</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav w-100 me-auto mb-2 mb-lg-0 align-items-center h4" *ngIf="!(isAuth | async)">
+            <li class="align-middle">
+                <a class="navbar-brand" [routerLink]="['/']">
+                    <img src="../../assets/logo-and-branding/mercury-logo.png" alt="mercury-logo" height="128">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  [routerLink]="['/login']">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  [routerLink]="['/register']">Register</a>
             </li>
         </ul>
     </div>

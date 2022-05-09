@@ -11,8 +11,9 @@ import { SpinnerService } from 'src/app/core/services/spinner.service';
 })
 export class ResearchCreateComponent implements OnInit {
 
+  formStep: number = 1;
   formInvalid = false;
-  // loading$ = this.spinnerService.loading$;
+
 
   form = new FormGroup({
     research_name: new FormControl('', [Validators.required, Validators.minLength(1), Validators.maxLength(24)]),
@@ -24,6 +25,19 @@ export class ResearchCreateComponent implements OnInit {
   constructor(private httpService: HttpService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
+  }
+
+  formNext() {
+    if (this.form.invalid) {
+      this.formInvalid = true;
+      return;
+    } 
+
+    this.formInvalid = false;
+    this.formStep++;
+  }
+  formBack() {
+    this.formStep--;
   }
 
   submit() {

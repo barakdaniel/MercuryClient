@@ -1,5 +1,5 @@
-<div class="col-sm-10 text-center mx-auto mt-5">
-    <h1>New Research</h1>
+<div *ngIf="formStep == 1" class="col-sm-10 text-center mx-auto mt-5">
+    <h1>New Research - Step 1</h1>
     <form class="mt-5" [formGroup]="form">
         <h3 class="text-danger" *ngIf="form.touched && formInvalid">Error</h3>
         <p>
@@ -37,8 +37,14 @@
                 <mat-hint>DD/MM/YYYY</mat-hint>
             </mat-form-field>
         </p>
-        <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Submit</button>
+        <button class="mt-4" mat-raised-button color="submitBtn" (click)="formNext()">Next</button>
     </form>
+</div>
+<div *ngIf="formStep == 2" class="col-sm-10 text-center mx-auto mt-5">
+    <h1>New Research - Step 2</h1>
+    <h3 class="text-danger" *ngIf="form.touched && formInvalid">Error</h3>
+    <button class="mt-4" mat-raised-button color="danger" (click)="formBack()">Back</button>
+    <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Submit</button>
 </div>
 <ng-container *ngIf="spinnerService.loading$ | async">
     <div class="overlay"></div>

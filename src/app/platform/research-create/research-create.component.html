@@ -40,3 +40,7 @@
         <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Submit</button>
     </form>
 </div>
+<ng-container *ngIf="spinnerService.loading$ | async">
+    <div class="overlay"></div>
+    <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</ng-container>

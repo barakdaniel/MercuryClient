@@ -11,6 +11,22 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class ResearchesListComponent implements OnInit {
 
+  /* spinner */
+  color = 'primary';
+  mode = 'indeterminate';
+  value = 50;
+  displayProgressSpinner = false;
+  spinnerWithoutBackdrop = false;
+
+  // Display progress spinner for 3 secs on click of button
+  showProgressSpinner = () => {
+    this.displayProgressSpinner = true;
+    setTimeout(() => {
+      this.displayProgressSpinner = false;
+    }, 3000);
+  };
+  /* end-spinner */
+
   firstname: string;
   search_filter: string = "";
   researches: Research[];

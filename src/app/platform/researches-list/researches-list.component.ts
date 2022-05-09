@@ -41,22 +41,24 @@ export class ResearchesListComponent implements OnInit {
     //this.researches = http get researches
     this.researches = [
       {
-        research_name: 'AAAB',
-        description: '',
+        research_name: 'Test ',
         agent_bahavior: '1',
-        start_time: 'yes',
+        start_time: '2022-05-25T18:17',
+        participants: ['yossi@test.com', 'yossi@test.com', 'yossi@test.com']
       },
       {
         research_name: 'ABAB',
-        description: '',
+        description: 'testing',
         agent_bahavior: '1',
-        start_time: 'yes',
+        start_time: '2022-05-25T18:17',
+        participants: ['yossi@test.com']
       },
       {
         research_name: 'BAAA',
-        description: '',
+        description: '123456',
         agent_bahavior: '1',
-        start_time: 'yes',
+        start_time: '2022-05-25T18:17',
+        participants: ['yossi@test.com']
       },
     ];
     this.researches_filtered = this.researches;

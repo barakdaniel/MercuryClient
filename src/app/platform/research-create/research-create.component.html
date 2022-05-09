@@ -1,12 +1,18 @@
-<div *ngIf="formStep == 1" class="col-sm-10 text-center mx-auto mt-5">
-    <h1>New Research - Step 1</h1>
-    <form class="mt-5" [formGroup]="form">
-        <h3 class="text-danger" *ngIf="form.touched && formInvalid">Error</h3>
+<div class="mt-5 col-sm-8 mx-auto">
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: {{progress}};" aria-valuenow="25" aria-valuemin="0"
+            aria-valuemax="100">Step {{formStep}}</div>
+    </div>
+</div>
+<form class="mt-5" [formGroup]="form">
+    <div *ngIf="formStep == 1" class="col-sm-10 text-center mx-auto mt-5">
+        <h1>New Research - Step 1</h1>
+        <h3 class="text-danger" *ngIf="form.touched && formInvalid">The form doesn't meet the requirements</h3>
         <p>
             <mat-form-field class="w-25" appearance="standard">
                 <mat-label>Research Name</mat-label>
                 <input formControlName="research_name" id="research_name" matInput>
-                <mat-hint>Required</mat-hint>
+                <mat-hint>Required*, max length is 24</mat-hint>
             </mat-form-field>
         </p>
         <p>
@@ -27,7 +33,7 @@
                         Sub Optimal
                     </mat-option>
                 </mat-select>
-                <mat-hint>Required</mat-hint>
+                <mat-hint>Required*</mat-hint>
             </mat-form-field>
         </p>
         <p>
@@ -38,15 +44,33 @@
             </mat-form-field>
         </p>
         <button class="mt-4" mat-raised-button color="submitBtn" (click)="formNext()">Next</button>
-    </form>
-</div>
-<div *ngIf="formStep == 2" class="col-sm-10 text-center mx-auto mt-5">
-    <h1>New Research - Step 2</h1>
-    <h3 class="text-danger" *ngIf="form.touched && formInvalid">Error</h3>
-    <button class="mt-4" mat-raised-button color="danger" (click)="formBack()">Back</button>
-    <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Submit</button>
-</div>
-<ng-container *ngIf="spinnerService.loading$ | async">
-    <div class="overlay"></div>
-    <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
-</ng-container>
+    </div>
+</form>
+<form class="mt-5" [formGroup]="participantsForm">
+    <div *ngIf="formStep == 2" class="col-sm-10 text-center mx-auto mt-5">
+        <h1>Add Participants - Step 2</h1>
+        <h3 class="text-danger" *ngIf="participantsForm.touched && participantsFormInvalid">Please enter 5-10 valid
+            emails
+        </h3>
+        <div formArrayName="participants">
+            <div *ngFor="let participant of participantsControls; let i = index" [formGroupName]="i">
+                <p>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Email</mat-label>
+                        <input class="form-control" id="email" type="email" formControlName="email" matInput>
+                    </mat-form-field>
+                    <button class="ms-3 mt-4" mat-raised-button color="danger"
+                        (click)="onRemoveParticipant(i)">-</button>
+                </p>
+            </div>
+        </div>
+        <p class="mb-5">
+            <button class="mt-4" mat-raised-button color="danger" (click)="onAddParticipant()">+</button>
+        </p>
+        <button class="mt-4" mat-raised-button color="danger" (click)="formBack()">Back</button>
+        <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Submit</button>
+    </div>
+    <ng-container *ngIf="spinnerService.loading$ | async">
+        <div class="overlay"></div>
+        <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+    </ng-container>

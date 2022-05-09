@@ -40,7 +40,7 @@ import { ResearchCreateComponent } from './platform/research-create/research-cre
     HttpClientModule,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

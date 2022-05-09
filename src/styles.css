@@ -20,7 +20,7 @@ body {
     color: #fff;
 }
 
-.content-outer-container{
+.content-outer-container {
     min-height: 100%;
 }
 
@@ -49,5 +49,5 @@ mat-progress-spinner {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 3; 
+    z-index: 3;
 }

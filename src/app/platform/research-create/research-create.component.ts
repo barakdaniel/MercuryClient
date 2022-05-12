@@ -53,14 +53,22 @@ export class ResearchCreateComponent implements OnInit {
       this.participantsFormInvalid = true;
       return;
     }
-    const newResearchData = this.form.value;
+
+    // Extract form fields into request object
+    // const newResearchData = this.form.value;
+    const newResearchData = {};
     newResearchData['participants'] = [];
     this.participantsControls.map(control => {
-      newResearchData['participants'].push(control.value.email);
+      newResearchData['participants'].push({'email' : control.value.email});
     })
+    newResearchData['game_configuration'] = this.gameConfiguration;
+    newResearchData['research_name'] = this.form.get('research_name').value;
+    newResearchData['research_description'] = this.form.get('description').value;
+
     this.spinnerService.show();
-    this.httpService.post('', newResearchData).subscribe({
+    this.httpService.post('research/', newResearchData).subscribe({
       next: (res) => {
+        console.log(res)
         this.router.navigate(['']);
         this.spinnerService.hide();
       },
@@ -83,5 +91,13 @@ export class ResearchCreateComponent implements OnInit {
 
   get participantsControls() {
     return (<FormArray>this.participantsForm.get('participants')).controls;
+  }
+
+  get gameConfiguration() {
+    const game_configuration = {
+      'agents_behaviors':  this.form.get('agent_bahavior').value,
+      'start_time': this.form.get('start_time').value
+    }
+    return  game_configuration 
   }
 }

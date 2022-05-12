@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { Research } from 'src/app/core/interfaces/Research';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { HttpService } from 'src/app/core/services/http.service';
+import { SpinnerService } from 'src/app/core/services/spinner.service';
 
 @Component({
   selector: 'app-researches-list',
@@ -29,40 +31,32 @@ export class ResearchesListComponent implements OnInit {
 
   firstname: string;
   search_filter: string = "";
-  researches: Research[];
+  researches: Research[] = [];
   researches_filtered: Research[];
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private httpService: HttpService, private authService: AuthService, private router: Router, private spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     //this.firstname = this.authService.loggedUserData.first_name;
     this.firstname = 'Yossi';
-
-    //this.researches = http get researches
-    this.researches = [
-      {
-        research_name: 'Test ',
-        agent_bahavior: '1',
-        start_time: '2022-05-25T18:17',
-        participants: ['yossi@test.com', 'yossi@test.com', 'yossi@test.com']
-      },
-      {
-        research_name: 'ABAB',
-        description: 'testing',
-        agent_bahavior: '1',
-        start_time: '2022-05-25T18:17',
-        participants: ['yossi@test.com']
-      },
-      {
-        research_name: 'BAAA',
-        description: '123456',
-        agent_bahavior: '1',
-        start_time: '2022-05-25T18:17',
-        participants: ['yossi@test.com']
-      },
-    ];
-    this.researches_filtered = this.researches;
+    this.getResearches()
   }
+
+  getResearches() {
+    this.spinnerService.show();
+    this.httpService.get('research/').subscribe({
+      next: (res) => {
+        this.researches = res.data;
+        this.researches[0].game_configuration.start_time = new Date(this.researches[0].game_configuration.start_time);
+        this.researches_filtered = this.researches;
+        this.spinnerService.hide();
+      },
+      error: (err) => {
+        console.log(err);
+        this.spinnerService.hide();
+      }
+    })
+  } 
 
   onSearchChange(event) {
     console.log(this.search_filter);

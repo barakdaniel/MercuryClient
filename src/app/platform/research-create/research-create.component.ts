@@ -59,7 +59,7 @@ export class ResearchCreateComponent implements OnInit {
     const newResearchData = {};
     newResearchData['participants'] = [];
     this.participantsControls.map(control => {
-      newResearchData['participants'].push({'email' : control.value.email});
+      newResearchData['participants'].push({ 'email': control.value.email });
     })
     newResearchData['game_configuration'] = this.gameConfiguration;
     newResearchData['research_name'] = this.form.get('research_name').value;
@@ -95,9 +95,9 @@ export class ResearchCreateComponent implements OnInit {
 
   get gameConfiguration() {
     const game_configuration = {
-      'agents_behaviors':  this.form.get('agent_bahavior').value,
+      'agents_behaviors': this.form.get('agent_bahavior').value,
       'start_time': this.form.get('start_time').value
     }
-    return  game_configuration 
+    return game_configuration
   }
 }

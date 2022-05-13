@@ -20,26 +20,17 @@ export class ResearchesListComponent implements OnInit {
   displayProgressSpinner = false;
   spinnerWithoutBackdrop = false;
 
-  // Display progress spinner for 3 secs on click of button
-  showProgressSpinner = () => {
-    this.displayProgressSpinner = true;
-    setTimeout(() => {
-      this.displayProgressSpinner = false;
-    }, 3000);
-  };
-  /* end-spinner */
-
   firstname: string;
   search_filter: string = "";
   researches: Research[] = [];
   researches_filtered: Research[];
 
-  constructor(private httpService: HttpService, private authService: AuthService, private router: Router, private spinnerService: SpinnerService) { }
+  constructor(private httpService: HttpService, private authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     //this.firstname = this.authService.loggedUserData.first_name;
     this.firstname = 'Yossi';
-    this.getResearches()
+    this.getResearches();
   }
 
   getResearches() {
@@ -56,19 +47,15 @@ export class ResearchesListComponent implements OnInit {
         this.spinnerService.hide();
       }
     })
-  } 
+  }
 
   onSearchChange(event) {
-    console.log(this.search_filter);
-
     this.researches_filtered = [];
     this.researches.forEach(research => {
       if (research.research_name.startsWith(this.search_filter)) {
         this.researches_filtered.push(research);
       }
     })
-
-    console.log(this.researches_filtered);
   }
 
   createResearch() {

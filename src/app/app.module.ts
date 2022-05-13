@@ -17,6 +17,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { ResearchesListComponent } from './platform/researches-list/researches-list.component';
 import { ResearchCreateComponent } from './platform/research-create/research-create.component';
+import { ResearchDetailsComponent } from './platform/research/research-details/research-details.component';
+import { ResearchComponent } from './platform/research/research.component';
+import { ResearchParticipantsDataComponent } from './platform/research/research-participants-data/research-participants-data.component';
+import { ResearchNetworkComponent } from './platform/research/research-network/research-network.component';
+import { ResearchMetadataComponent } from './platform/research/research-metadata/research-metadata.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +33,11 @@ import { ResearchCreateComponent } from './platform/research-create/research-cre
     RegisterComponent,
     ResearchesListComponent,
     ResearchCreateComponent,
+    ResearchDetailsComponent,
+    ResearchComponent,
+    ResearchNetworkComponent,
+    ResearchMetadataComponent,
+    ResearchParticipantsDataComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,36 @@
+<div class="row border-bottom">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Research Name</div>
+    <div class="col-sm-5 float-left h5">{{research.research_name}}</div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row mt-4 border-bottom" *ngIf="research.research_description!=''">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Research Description</div>
+    <div class="col-sm-5 float-left h5">{{research.research_description}}</div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row mt-4 border-bottom border-bottom">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Agent Behavior</div>
+    <div class="col-sm-5 float-left h5">{{research.game_configuration.agent_bahavior}}</div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row mt-4 border-bottom">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Game Start Time</div>
+    <div class="col-sm-5 float-left h5">{{research.game_configuration.start_time | date:'medium'}}</div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row mt-4 border-bottom">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Interactions Number</div>
+    <div class="col-sm-5 float-left h5">{{research.interactions.length}}</div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row mt-4 border-bottom">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Participants Number</div>
+    <div class="col-sm-5 float-left h5">{{research.participants.length}}</div>
+    <div class="col-sm-1"></div>
+</div>

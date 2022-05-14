@@ -38,7 +38,8 @@ export class ResearchesListComponent implements OnInit {
     this.httpService.get('research/').subscribe({
       next: (res) => {
         this.researches = res.data;
-        this.researches[0].game_configuration.start_time = new Date(this.researches[0].game_configuration.start_time);
+        if (this.researches[0])
+          this.researches[0].game_configuration.start_time = new Date(this.researches[0].game_configuration.start_time);
         this.researches_filtered = this.researches;
         this.spinnerService.hide();
       },

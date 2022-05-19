@@ -1,7 +1,62 @@
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 
-<p class="mt-5">interactions Network.</p>
+<p>
+    <mat-form-field class="w-25 mt-5" appearance="fill">
+        <mat-label>Round Filter</mat-label>
+        <mat-select id="agent_bahavior" [(value)]="filter" (selectionChange)="filterData()">
+            <mat-option [value]="0">
+                All Rounds
+            </mat-option>
+            <mat-option [value]="1">
+                Round 1
+            </mat-option>
+            <mat-option [value]="2">
+                Round 2
+            </mat-option>
+            <mat-option [value]="3">
+                Round 3
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</p>
+
+
+<div *ngIf="centrality" class="row border-bottom mt-5">
+    <div class="text-secondary col-sm-6 text-right h5">Most Central</div>
+    <div class="col-sm-6 float-left h5">{{centrality.name}} : {{centrality.value}}</div>
+</div>
+<div *ngIf="networkData?.density" class="row border-bottom mt-3">
+    <div class="text-secondary col-sm-6 text-right h5">Density</div>
+    <div class="col-sm-6 float-left h5">{{networkData.density}}</div>
+</div>
+<div *ngIf="networkData?.diameter" class="row border-bottom mt-3">
+    <div class="text-secondary col-sm-6 text-right h5">Diameter</div>
+    <div class="col-sm-6 float-left h5">{{networkData.diameter}}</div>
+</div>
+<div *ngIf="networkData?.radius" class="row border-bottom mt-3">
+    <div class="text-secondary col-sm-6 text-right h5">Radius</div>
+    <div class="col-sm-6 float-left h5">{{networkData.radius}}</div>
+</div>
+<div *ngIf="networkData?.reciprocity" class="row border-bottom mt-3">
+    <div class="text-secondary col-sm-6 text-right h5">Reciprocity</div>
+    <div class="col-sm-6 float-left h5">{{networkData.reciprocity}}</div>
+</div>
+<div *ngIf="networkData?.edges_count" class="row border-bottom mt-3">
+    <div class="text-secondary col-sm-6 text-right h5">Edges Count</div>
+    <div class="col-sm-6 float-left h5">{{networkData.edges_count}}</div>
+</div>
+<div *ngIf="networkData?.node_count" class="row border-bottom mt-3">
+    <div class="text-secondary col-sm-6 text-right h5">Node Count</div>
+    <div class="col-sm-6 float-left h5">{{networkData.node_count}}</div>
+</div>
+
+<p class="mt-5 h1">interactions Network</p>
 
 <div id="mynetwork">
 
 </div>
+
+<ng-container *ngIf="spinnerService.loading$ | async">
+    <div class="overlay"></div>
+    <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</ng-container>

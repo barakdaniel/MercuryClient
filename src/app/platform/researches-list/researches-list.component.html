@@ -16,7 +16,8 @@
 <div class="mt-3" *ngIf="researches">
     <div class="mt-3 " *ngFor="let research of researches_filtered; let i = index">
         <div class="col-md-6 mx-auto">
-            <a style="cursor: pointer;" class="list-group-item clearfix border border-dark rounded bg-light text-dark ">
+            <a [routerLink]="['/research/',research.id]" style="cursor: pointer;"
+                class="list-group-item clearfix border border-dark rounded bg-light text-dark link-hover">
                 <h4 class="list-group-item-heading">{{research.research_name}}</h4>
                 <p class="list-group-item-text" *ngIf="research.research_description">{{research.research_description}}
                 </p>
@@ -28,7 +29,7 @@
         </div>
     </div>
 </div>
-<div class="mt-5" *ngIf="!researches">
+<div class="mt-5" *ngIf="researches.length == 0">
     <p>No researches, create a new one.</p>
 </div>
 <ng-container *ngIf="spinnerService.loading$ | async">

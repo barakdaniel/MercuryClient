@@ -1,6 +1,7 @@
 import { GameAppearance } from "./GameAppearance";
 
 export interface Participant {
+    id: number;
     email: string;
     character_name: string;
     daily_mission_score: number;

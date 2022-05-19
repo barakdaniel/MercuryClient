@@ -44,3 +44,7 @@
         <p class="mt-2">Already have an account? <a href="/login">Login</a></p>
     </div>
 </div>
+<ng-container *ngIf="spinnerService.loading$ | async">
+    <div class="overlay"></div>
+    <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</ng-container>

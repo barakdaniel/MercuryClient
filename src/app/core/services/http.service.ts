@@ -2,11 +2,14 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 
+import { Researcher } from "../interfaces/Researcher";
+
 @Injectable({
     providedIn: 'root'
 })
 export class HttpService {
 
+    loggedUsedData: Researcher
     userToken: string;
     endPoint: string = 'http://localhost:8000/api/'
     headers = new HttpHeaders({
@@ -33,18 +36,27 @@ export class HttpService {
             body: obj
         }
         return this.http.delete(`${this.endPoint}${entity}`, options);
-    } 
+    }
 
     setUserData(data) {
-        localStorage.setItem('first_name', data.first_name);
+        this.loggedUsedData = {
+            id: data.id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+        }
     }
 
     setUserToken(userToken: string) {
         this.userToken = userToken;
-        this.headers = this.headers.set('X-CSRFToken', userToken);
+        this.headers = this.headers.set('Authorization', "Token " + userToken);
         localStorage.setItem('Token', this.userToken);
     }
-    
+
+    removeUserToken() {
+        this.headers.delete('Authorization');
+    }
+
     checkForUserToken() {
         return localStorage.getItem('Token');
     }

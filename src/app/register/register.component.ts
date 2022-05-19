@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
+import { SpinnerService } from '../core/services/spinner.service';
 
 @Component({
   selector: 'app-register',
@@ -24,29 +25,32 @@ export class RegisterComponent implements OnInit {
     first_name: new FormControl('', Validators.required),
     last_name: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]),
-    confirmpassword: new FormControl('', [Validators.required,Validators.minLength(4), Validators.maxLength(12)]),
+    confirmpassword: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]),
 
-  },{validators: this.checkpassword});
+  }, { validators: this.checkpassword });
 
-  constructor(private fb: FormBuilder, private  authService: AuthService, private router: Router) { }
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.spinnerService.show();
+    this.authService.tryLoginWithToken();
+    this.spinnerService.hide();
+  }
 
-  submit(){
-
-    if (this.form.invalid){
+  submit() {
+    this.spinnerService.show();
+    if (this.form.invalid) {
       this.formInvalid = true;
       return;
     }
-    this.authService.register(this.form.value); 
-    
+    this.authService.register(this.form.value);
+
     const user = {
       email: this.form.get('email').value,
       password: this.form.get('password').value
-
-    }       
+    }
     this.authService.login(user);
-    this.router.navigate(['']);
+    this.spinnerService.hide();
   }
 
 

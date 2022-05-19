@@ -16,6 +16,10 @@
                 <a class="nav-link" [routerLink]="['/']">Account</a>
             </li>
         </ul>
+        <div class="text-center" *ngIf="(isAuth | async)">
+            <button class="btn btn-danger" (click)="logout()">Logout</button>
+        </div>
+        <div *ngIf="(isAuth | async)"></div>
         <ul class="navbar-nav w-100 me-auto mb-2 mb-lg-0 align-items-center h4" *ngIf="!(isAuth | async)">
             <li class="align-middle">
                 <a class="navbar-brand" [routerLink]="['/']">

@@ -12,8 +12,15 @@
 </div>
 <div class="row mt-4 border-bottom border-bottom">
     <div class="col-sm-1"></div>
+    <div class="col-sm-5 text-right h5">Game Code</div>
+    <div class="col-sm-5 float-left h5">{{research.game_configuration.game_code}}</div>
+    <div class="col-sm-1"></div>
+</div>
+<div class="row mt-4 border-bottom border-bottom">
+    <div class="col-sm-1"></div>
     <div class="col-sm-5 text-right h5">Agent Behavior</div>
-    <div class="col-sm-5 float-left h5">{{research.game_configuration.agent_bahavior}}</div>
+    <div *ngIf="research.game_configuration.agents_behaviors == 1" class="col-sm-5 float-left h5">Optimal</div>
+    <div *ngIf="research.game_configuration.agents_behaviors == 2" class="col-sm-5 float-left h5">Sub Optimal</div>
     <div class="col-sm-1"></div>
 </div>
 <div class="row mt-4 border-bottom">

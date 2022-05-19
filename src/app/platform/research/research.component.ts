@@ -1,6 +1,8 @@
+import { JsonpClientBackend } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Research } from 'src/app/core/interfaces/Research';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 
@@ -15,19 +17,23 @@ export class ResearchComponent implements OnInit {
   activeTab: string = "Details";
   id: string;
 
-  constructor(private spinnerService: SpinnerService, private httpService: HttpService, private route: ActivatedRoute) { }
+  constructor(private authService: AuthService, private spinnerService: SpinnerService, private httpService: HttpService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
-    //getResearchData();
-    this.initResearchesForDebug();
+    this.getResearchData();
   }
 
   getResearchData() {
     this.spinnerService.show();
-    this.httpService.get(`research/${this.id}`).subscribe({
+    this.httpService.get(`profiles/${this.authService.loggedUserData.id}/details`).subscribe({
       next: (res) => {
-        this.research = res;
+
+        res.researchs.map(research => {
+          if (research.id == this.id) {
+            this.research = JSON.parse(JSON.stringify(research)) as Research;
+          }
+        });
         this.spinnerService.hide();
       },
       error: (err) => {
@@ -35,46 +41,5 @@ export class ResearchComponent implements OnInit {
         this.spinnerService.hide();
       }
     });
-  }
-
-  //Until we have http request:
-  initResearchesForDebug() {
-    this.research = {
-      research_name: "Test",
-      research_description: 'Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah Blah ',
-      interactions: [],
-      game_configuration: {
-        agent_bahavior: "Optimal",
-        start_time: new Date()
-      },
-      participants: [
-        {
-          email: "test@mercury.com",
-          character_name: "ABC",
-          daily_mission_score: 123,
-          was_killer: true,
-          killer_round: 1,
-          game_appearance: {
-            hair: "Blue",
-            gender: "Male",
-            items: "Axe",
-            color: "White"
-          }
-        },
-        {
-          email: "test@mercury.com",
-          character_name: "ABC",
-          daily_mission_score: 123,
-          was_killer: true,
-          killer_round: 1,
-          game_appearance: {
-            hair: "Blue",
-            gender: "Male",
-            items: "Axe",
-            color: "White"
-          }
-        }
-      ]
-    }
   }
 }

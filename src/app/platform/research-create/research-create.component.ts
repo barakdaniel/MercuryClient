@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { SpinnerService } from 'src/app/core/services/spinner.service';
 
@@ -27,7 +28,7 @@ export class ResearchCreateComponent implements OnInit {
     participants: new FormArray([])
   })
 
-  constructor(private httpService: HttpService, private router: Router, public spinnerService: SpinnerService) { }
+  constructor(private authService: AuthService, private httpService: HttpService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
   }
@@ -64,6 +65,7 @@ export class ResearchCreateComponent implements OnInit {
     newResearchData['game_configuration'] = this.gameConfiguration;
     newResearchData['research_name'] = this.form.get('research_name').value;
     newResearchData['research_description'] = this.form.get('description').value;
+    newResearchData['researcher'] = this.authService.loggedUserData.id;
 
     this.spinnerService.show();
     this.httpService.post('research/', newResearchData).subscribe({

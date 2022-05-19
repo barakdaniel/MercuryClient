@@ -10,9 +10,9 @@ import { ResearchComponent } from './platform/research/research.component';
 import { RegisterComponent } from './register/register.component';
 
 const routes = [
-  { path: '', component: PlatformComponent },//, canActivate: [AuthGuard]},
-  { path: 'createresearch', component: ResearchCreateComponent },
-  { path: 'research/:id', component: ResearchComponent },
+  { path: '', component: PlatformComponent, canActivate: [AuthGuard] },
+  { path: 'createresearch', component: ResearchCreateComponent, canActivate: [AuthGuard] },
+  { path: 'research/:id', component: ResearchComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '**', redirectTo: '' }

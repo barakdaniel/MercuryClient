@@ -3,6 +3,8 @@ import { Interaction } from "./Interaction";
 import { Participant } from "./Participant";
 
 export interface Research {
+    id: number;
+    researcher: number;
     research_name: string;
     research_description?: string;
     participants: Participant[];

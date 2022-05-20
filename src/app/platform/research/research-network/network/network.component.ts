@@ -6,7 +6,7 @@ import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { HttpParams } from '@angular/common/http';
 import { Research } from 'src/app/core/interfaces/Research';
-//import * as cytoscape from "cytoscape";
+import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 
 @Component({
   selector: 'app-network',
@@ -24,11 +24,24 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   centrality: { name: string, value: number };
   filter;
   filteredInteractions: Interaction[];
+  options;
 
   constructor(public spinnerService: SpinnerService, private httpService: HttpService) { }
 
   ngOnInit(): void {
     this.getNetworkData();
+    this.options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: 'Interactions',
+      useBom: true,
+      headers: Object.keys(this.interactions[0]),
+      useHeader: false,
+      nullToEmptyString: true,
+    };
   }
 
   ngAfterViewInit() {
@@ -42,39 +55,49 @@ export class NetworkComponent implements OnInit, AfterViewInit {
     this.createNetwork();
   }
 
+  exportCSV() {
+    new AngularCsv(this.interactions, 'Interactions', this.options);
+  }
+
   filterData() {
     this.spinnerService.show();
+    this.getNetworkData(this.filter);
 
     if (this.filter == 0) {
       this.filteredInteractions = this.interactions;
+      this.initNetwork();
     }
-    else {
-      this.filteredInteractions = [];
-      this.filteredInteractions = this.interactions.filter(interaction => interaction.round == this.filter);
-    }
-
-    this.initNetwork();
-
     this.spinnerService.hide();
   }
 
-  getNetworkData() {
+  getNetworkData(round?) {
     this.spinnerService.show();
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('centrality', 'true')
       .set('density', 'true')
       .set('diameter', 'true')
       .set('radius', 'true')
       .set('reciprocity', 'true');
-
+    console.log(round)
+    if (round) {
+      params = params.append('round', round);
+      console.log(params.get('round'))
+    }
     this.httpService.get(`research/${this.research.id}/network`, params).subscribe({
       next: (res) => {
         this.networkData = res;
 
-        this.centrality = {
-          name: Object.keys(this.networkData.centrality)[0],
-          value: Object.values(this.networkData.centrality)[0] as number
+        if (this.networkData.centrality){
+          this.centrality = {
+            name: Object.keys(this.networkData.centrality)[0],
+            value: Object.values(this.networkData.centrality)[0] as number
+          }
         }
+        else{
+          this.centrality = null;
+        };
+        this.filteredInteractions = this.networkData.interactions;
+        this.initNetwork();
         this.spinnerService.hide();
       },
       error: (err) => {

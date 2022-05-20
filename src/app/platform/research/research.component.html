@@ -1,0 +1,25 @@
+<div *ngIf="research" class="mt-5 col-sm-6 mx-auto text-center">
+    <h2>Research '{{research.research_name}}' {{activeTab}}</h2>
+    <ul class="nav nav-tabs mt-3 mb-5 justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" (click)="activeTab='Details'"
+                [ngClass]="{'active': activeTab=='Details'}">Details</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="activeTab='Network'" [ngClass]="{'active': activeTab=='Network'}">Network</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="activeTab='Meta Data'" [ngClass]="{'active': activeTab=='Meta Data'}">Meta
+                Data</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="activeTab='Participants Data'"
+                [ngClass]="{'active': activeTab=='Participants Data'}">Participants Data</a>
+        </li>
+    </ul>
+    <app-research-details [research]="research" *ngIf="activeTab=='Details'"></app-research-details>
+    <app-research-network [research]="research" *ngIf="activeTab=='Network'"></app-research-network>
+    <app-research-metadata [research]="research" *ngIf="activeTab=='Meta Data'"></app-research-metadata>
+    <app-research-participants-data [research]="research" *ngIf="activeTab=='Participants Data'">
+    </app-research-participants-data>
+</div>

@@ -1,6 +1,6 @@
 <div class="my-container text-center mt-5">
     <h2>Login</h2>
-    <form [formGroup]="form" >
+    <form [formGroup]="form">
         <p>
             <mat-form-field appearance="standard">
                 <mat-label>Email</mat-label>
@@ -20,3 +20,7 @@
         <p class="mt-2">Don't have an account? <a href="/register">Sign up</a></p>
     </div>
 </div>
+<ng-container *ngIf="spinnerService.loading$ | async">
+    <div class="overlay"></div>
+    <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</ng-container>

@@ -13,13 +13,18 @@ export class HeaderComponent implements OnInit {
   isAuth: Observable<boolean>;
 
   constructor(private authService: AuthService, private router: Router) {
-      this.isAuth = authService.isLoggedIn();
-   }
+    this.isAuth = authService.isLoggedIn();
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   onLogoClick() {
-      this.router.navigate([''])
+    this.router.navigate([''])
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login'])
   }
 
 }

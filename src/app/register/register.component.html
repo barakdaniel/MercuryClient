@@ -3,7 +3,7 @@
     <div *ngIf="formInvalid">
         <h3 class="text-danger">One of the field is not valid</h3>
     </div>
-    <form [formGroup]="form" >
+    <form [formGroup]="form">
         <p>
             <mat-form-field appearance="standard">
                 <mat-label>Email</mat-label>
@@ -13,14 +13,14 @@
         <p>
             <mat-form-field appearance="standard">
                 <mat-label>First name</mat-label>
-                <input id="first_name" formControlName="first_name"matInput>
+                <input id="first_name" formControlName="first_name" matInput>
                 <mat-hint>Letters only</mat-hint>
             </mat-form-field>
         </p>
         <p>
             <mat-form-field appearance="standard">
                 <mat-label>Last name</mat-label>
-                <input id="last_name" formControlName="last_name"matInput>
+                <input id="last_name" formControlName="last_name" matInput>
                 <mat-hint>Letters only</mat-hint>
             </mat-form-field>
         </p>
@@ -38,9 +38,13 @@
                 <mat-hint>Must match password<br> 8-12 characters password</mat-hint>
             </mat-form-field>
         </p>
-        <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">submit</button>
+        <button class="mt-4" mat-raised-button color="submitBtn" (click)="submit()">Submit</button>
     </form>
     <div class="border-top mt-2">
         <p class="mt-2">Already have an account? <a href="/login">Login</a></p>
     </div>
 </div>
+<ng-container *ngIf="spinnerService.loading$ | async">
+    <div class="overlay"></div>
+    <mat-progress-spinner [mode]="'indeterminate'"></mat-progress-spinner>
+</ng-container>

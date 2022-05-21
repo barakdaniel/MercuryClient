@@ -24,6 +24,7 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   centrality: { name: string, value: number };
   filter;
   filteredInteractions: Interaction[];
+  directed = 0;
   options;
 
   constructor(public spinnerService: SpinnerService, private httpService: HttpService) { }
@@ -87,13 +88,13 @@ export class NetworkComponent implements OnInit, AfterViewInit {
       next: (res) => {
         this.networkData = res;
 
-        if (this.networkData.centrality){
+        if (this.networkData.centrality) {
           this.centrality = {
             name: Object.keys(this.networkData.centrality)[0],
             value: Object.values(this.networkData.centrality)[0] as number
           }
         }
-        else{
+        else {
           this.centrality = null;
         };
         this.filteredInteractions = this.networkData.interactions;
@@ -111,9 +112,16 @@ export class NetworkComponent implements OnInit, AfterViewInit {
     this.edges.clear();
     let i = 0;
     this.filteredInteractions.map((interaction) => {
-      this.edges.add([
-        { id: i++, from: interaction.source, to: interaction.target, width: ((interaction.score + 1) * 2) },
-      ]);
+      let edgeColor;
+      if (interaction.score == 0)
+        edgeColor = '#FF0000';
+      else if (interaction.score == 1)
+        edgeColor = '#00FF00';
+      else if (interaction.score == 2)
+        edgeColor = '#0000FF';
+      else edgeColor = '#848484';
+
+      this.edges.add([{ id: i++, from: interaction.source, to: interaction.target, width: ((interaction.score + 1)), color: { color: edgeColor } }]);
     });
   }
 
@@ -158,10 +166,14 @@ export class NetworkComponent implements OnInit, AfterViewInit {
       edges: {
         arrows: {
           to: {
-            enabled: true,
+            enabled: this.directed == 0,
             scaleFactor: 1,
             type: "arrow"
           }
+        },
+        color: {
+          inherit: false,
+          opacity: 1.0
         }
       }
     };

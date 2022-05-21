@@ -11,13 +11,14 @@ import { SpinnerService } from '../core/services/spinner.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  result: string;
 
   form = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]),
   });
 
-  constructor(private authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
+  constructor(public authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
     this.spinnerService.show();
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.spinnerService.hide();
   }
 
-  submit() {
+  async submit() {
     this.spinnerService.show();
     this.authService.login(this.form.value);
     this.spinnerService.hide();

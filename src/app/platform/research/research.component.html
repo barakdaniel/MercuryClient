@@ -16,10 +16,15 @@
             <a class="nav-link" (click)="activeTab='Participants Data'"
                 [ngClass]="{'active': activeTab=='Participants Data'}">Participants Data</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" (click)="activeTab='Download CSV'"
+                [ngClass]="{'active': activeTab=='Download CSV'}">Download CSV</a>
+        </li>
     </ul>
     <app-research-details [research]="research" *ngIf="activeTab=='Details'"></app-research-details>
     <app-research-network [research]="research" *ngIf="activeTab=='Network'"></app-research-network>
     <app-research-metadata [research]="research" *ngIf="activeTab=='Meta Data'"></app-research-metadata>
     <app-research-participants-data [research]="research" *ngIf="activeTab=='Participants Data'">
     </app-research-participants-data>
+    <app-research-csv [research]="research" *ngIf="activeTab=='Download CSV'"></app-research-csv>
 </div>

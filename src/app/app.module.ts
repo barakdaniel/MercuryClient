@@ -23,6 +23,7 @@ import { ResearchParticipantsDataComponent } from './platform/research/research-
 import { ResearchNetworkComponent } from './platform/research/research-network/research-network.component';
 import { ResearchMetadataComponent } from './platform/research/research-metadata/research-metadata.component';
 import { NetworkComponent } from './platform/research/research-network/network/network.component';
+import { ResearchCsvComponent } from './platform/research/research-csv/research-csv.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { NetworkComponent } from './platform/research/research-network/network/n
     ResearchNetworkComponent,
     ResearchMetadataComponent,
     ResearchParticipantsDataComponent,
-    NetworkComponent
+    NetworkComponent,
+    ResearchCsvComponent
   ],
   imports: [
     BrowserModule,

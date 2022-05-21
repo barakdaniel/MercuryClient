@@ -1,0 +1,30 @@
+<div class="row mt-3">
+    <div class="col-md-4 text-center">
+        <button class="btn btn-primary" (click)="exportCSV('Interactions')">Interactions CSV</button>
+    </div>
+    <div class="col-md-8 text-center">
+        <p>
+            All of the interaction made by the players and smart agents over the lapse of the game.
+        </p>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-4 text-center">
+        <button class=" btn btn-primary" (click)="exportCSV('Participants')">Participants CSV</button>
+    </div>
+    <div class="col-md-8 text-center">
+        <p>
+            The data regarding each participant of the research with the corelated data from the game.
+        </p>
+    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-4 text-center">
+        <button class=" btn btn-primary" (click)="exportHistoryCSV()">History CSV</button>
+    </div>
+    <div class="col-md-8 text-center">
+        <p>
+            This csv contains all of the interaciton with hidden knowledge clues, throughout all the rounds of the game.
+        </p>
+    </div>
+</div>

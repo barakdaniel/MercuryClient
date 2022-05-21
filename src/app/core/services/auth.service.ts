@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 import { LoggedUserData } from "../interfaces/LoggedUserData";
 
 import { HttpService } from "./http.service";
+import { SpinnerService } from "./spinner.service";
 
 @Injectable({
     providedIn: 'root'
@@ -15,16 +16,22 @@ export class AuthService {
     loggedUserData$: BehaviorSubject<LoggedUserData>
     currentUserToken: string;
     userLoggedIn = new BehaviorSubject<boolean>(false);//TBD this.hasToken());
+    resultMessage = new BehaviorSubject<string>("");
 
 
-    constructor(private httpService: HttpService, private router: Router) { }
+    constructor(private httpService: HttpService, private router: Router, private spinnerService: SpinnerService) { }
 
     register(details) {
+        this.spinnerService.show();
         this.httpService.post('profiles/researcher/', details).subscribe({
             next: (res) => {
                 console.log(res);
+                this.spinnerService.hide();
             },
-            error: e => console.log(e),
+            error: e => {
+                console.log(e);
+                this.spinnerService.hide();
+            }
         })
     }
 
@@ -33,7 +40,7 @@ export class AuthService {
     }
 
     async login(user) {
-        this.httpService.post('profiles/login/', user).subscribe({
+        return this.httpService.post('profiles/login/', user).subscribe({
             next: (res) => {
                 this.loggedUserData = res;
                 this.loggedUserData$ = new BehaviorSubject<LoggedUserData>(this.loggedUserData);
@@ -42,16 +49,16 @@ export class AuthService {
                 this.httpService.setUserData(res);
                 this.userLoggedIn.next(true);
                 this.router.navigate(['']);
-                return this.userLoggedIn;
+                this.resultMessage.next('');
             },
             error: e => {
-                console.log(e);
-                return this.userLoggedIn;
+                this.resultMessage.next(e.error.error);
             }
         })
     }
 
     authenticate() {
+        this.spinnerService.show();
         this.httpService.post('profiles/login/', {}).subscribe({
             next: (res) => {
                 this.loggedUserData = res;
@@ -59,10 +66,14 @@ export class AuthService {
                 this.httpService.setUserData(res);
                 this.userLoggedIn.next(true);
                 this.router.navigate(['']);
+                this.spinnerService.hide();
                 return this.userLoggedIn;
             },
             error: e => {
                 console.log(e);
+                localStorage.removeItem('Token');
+                this.httpService.removeUserToken();
+                this.spinnerService.hide();
                 return this.userLoggedIn;
             }
         })

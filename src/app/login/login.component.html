@@ -1,5 +1,6 @@
 <div class="my-container text-center mt-5">
     <h2>Login</h2>
+    <h4 class="text-danger">{{authService.resultMessage | async}}</h4>
     <form [formGroup]="form">
         <p>
             <mat-form-field appearance="standard">

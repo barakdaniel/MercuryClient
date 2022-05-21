@@ -12,7 +12,7 @@ export class ResearchParticipantsDataComponent implements OnInit {
 
   @Input() research: Research;
 
-  displayedColumns: string[] = ['email', 'character_name', 'was_killer', 'game_appearance.hair', 'game_appearance.gender', 'game_appearance.color', 'game_appearance.items'];
+  displayedColumns: string[] = ['email', 'character_name', 'killer', 'game_appearance.hair', 'game_appearance.gender', 'game_appearance.color', 'game_appearance.items', 'clue'];
   ELEMENT_DATA: Participant[] = [];
   dataSource;
 

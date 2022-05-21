@@ -36,9 +36,9 @@
         <button class=" btn btn-primary" (click)="exportCSV()">DOWNLOAD CSV</button>
     </div>
     <div class="col-sm-6">
-        <p >
+        <p>
             <mat-form-field class="w-50 mt-5" appearance="fill">
-                <mat-label>Filter</mat-label>
+                <mat-label>Filter Rounds</mat-label>
                 <mat-select id="agent_bahavior" [(value)]="filter" (selectionChange)="filterData()">
                     <mat-option [value]="0">
                         All Rounds
@@ -56,14 +56,33 @@
             </mat-form-field>
         </p>
     </div>
+    <div class="col-sm-6">
+        <p>
+            <mat-form-field class="w-50 mt-5" appearance="fill">
+                <mat-label>Network Edges</mat-label>
+                <mat-select id="agent_bahavior" [(value)]="directed" (selectionChange)="filterData()">
+                    <mat-option [value]="0">
+                        Directed
+                    </mat-option>
+                    <mat-option [value]="1">
+                        Undirected
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+    </div>
 </div>
 
 
 <p class="mt-5 h1">interactions Network</p>
-
 <div id="mynetwork">
-
 </div>
+<div class="text-center h5">
+    <div class="text-danger">Red - Trivial Messag</div>
+    <div class="text-success">Green - Common knowledge</div>
+    <div class="text-primary">Blue - Hidden Knowledge</div>
+</div>
+
 
 <ng-container *ngIf="spinnerService.loading$ | async">
     <div class="overlay"></div>

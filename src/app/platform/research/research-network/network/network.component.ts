@@ -24,7 +24,6 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   centrality: { name: string, value: number };
   filter;
   filteredInteractions: Interaction[];
-  directed = 0;
   options;
 
   constructor(public spinnerService: SpinnerService, private httpService: HttpService) { }
@@ -166,7 +165,7 @@ export class NetworkComponent implements OnInit, AfterViewInit {
       edges: {
         arrows: {
           to: {
-            enabled: this.directed == 0,
+            enabled: true,
             scaleFactor: 1,
             type: "arrow"
           }

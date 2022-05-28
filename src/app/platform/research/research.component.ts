@@ -26,14 +26,9 @@ export class ResearchComponent implements OnInit {
 
   getResearchData() {
     this.spinnerService.show();
-    this.httpService.get(`profiles/${this.authService.loggedUserData.id}/details`).subscribe({
+    this.httpService.get(`research/${this.id}/details`).subscribe({
       next: (res) => {
-
-        res.researchs.map(research => {
-          if (research.id == this.id) {
-            this.research = JSON.parse(JSON.stringify(research)) as Research;
-          }
-        });
+        this.research = JSON.parse(JSON.stringify(res.data)) as Research;
         this.spinnerService.hide();
       },
       error: (err) => {

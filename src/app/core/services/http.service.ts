@@ -11,8 +11,8 @@ export class HttpService {
 
     loggedUsedData: Researcher
     userToken: string;
-    // endPoint: string = 'http://localhost:8000/api/'
-    endPoint: string = 'https://mercury-be-network.herokuapp.com/api/'
+    endPoint: string = 'http://localhost:8000/api/'
+    // endPoint: string = 'https://mercury-be-network.herokuapp.com/api/'
     headers = new HttpHeaders({
         'Content-Type': 'application/json'
     });

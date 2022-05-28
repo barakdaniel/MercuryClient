@@ -22,8 +22,8 @@ export class ResearchesListComponent implements OnInit {
 
   firstname: string;
   search_filter: string = "";
-  researches: Research[] = [];
-  researches_filtered: Research[];
+  researches: any[] = [];
+  researches_filtered: any[];
 
   constructor(private httpService: HttpService, private authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
@@ -37,9 +37,9 @@ export class ResearchesListComponent implements OnInit {
     this.spinnerService.show();
     this.httpService.get('profiles/' + this.authService.loggedUserData.id + '/details').subscribe({
       next: (res) => {
-        this.researches = res.researchs;
-        if (this.researches[0])
-          this.researches[0].game_configuration.start_time = new Date(this.researches[0].game_configuration.start_time);
+        this.researches = res.researches;
+        // if (this.researches[0])
+          // this.researches[0].game_configuration.start_time = new Date(this.researches[0].game_configuration.start_time);
         this.researches_filtered = this.researches;
         this.spinnerService.hide();
       },

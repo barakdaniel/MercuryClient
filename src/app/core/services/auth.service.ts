@@ -27,6 +27,10 @@ export class AuthService {
             next: (res) => {
                 console.log(res);
                 this.spinnerService.hide();
+                this.login({
+                    username: details.email,
+                    password: details.password
+                });
             },
             error: e => {
                 console.log(e);
@@ -40,7 +44,8 @@ export class AuthService {
     }
 
     async login(user) {
-        return this.httpService.post('profiles/login/', user).subscribe({
+        this.spinnerService.show();
+        this.httpService.post('profiles/login/', user).subscribe({
             next: (res) => {
                 this.loggedUserData = res;
                 this.loggedUserData$ = new BehaviorSubject<LoggedUserData>(this.loggedUserData);
@@ -48,11 +53,13 @@ export class AuthService {
                     this.httpService.setUserToken(res.token);
                 this.httpService.setUserData(res);
                 this.userLoggedIn.next(true);
+                this.spinnerService.hide();
                 this.router.navigate(['']);
                 this.resultMessage.next('');
             },
             error: e => {
                 this.resultMessage.next(e.error.error);
+                this.spinnerService.hide();
             }
         })
     }

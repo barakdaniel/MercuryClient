@@ -21,15 +21,11 @@ export class LoginComponent implements OnInit {
   constructor(public authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
-    this.spinnerService.show();
     this.authService.tryLoginWithToken();
-    this.spinnerService.hide();
   }
 
   async submit() {
-    this.spinnerService.show();
     this.authService.login(this.form.value);
-    this.spinnerService.hide();
   }
 
 }

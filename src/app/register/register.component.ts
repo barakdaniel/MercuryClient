@@ -32,25 +32,15 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
-    this.spinnerService.show();
     this.authService.tryLoginWithToken();
-    this.spinnerService.hide();
   }
 
   submit() {
-    this.spinnerService.show();
     if (this.form.invalid) {
       this.formInvalid = true;
       return;
     }
     this.authService.register(this.form.value);
-
-    const user = {
-      email: this.form.get('email').value,
-      password: this.form.get('password').value
-    }
-    this.authService.login(user);
-    this.spinnerService.hide();
   }
 
 

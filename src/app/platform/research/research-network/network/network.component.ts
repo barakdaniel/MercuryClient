@@ -14,15 +14,21 @@ import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
   styleUrls: ['./network.component.css']
 })
 export class NetworkComponent implements OnInit, AfterViewInit {
-  @Input() interactions: Interaction[];
+  // interactions: Interaction[];
   @Input() research: Research;
 
   nodes = new DataSet<any>();
   edges = new DataSet<any>();
+  nodesFromBE: any[];
+  edgesFromBE: any[];
+
+  filters = {
+    round: 0,
+    player: ""
+  }
 
   networkData;
   centrality: { name: string, value: number };
-  filter;
   filteredInteractions: Interaction[];
   options;
 
@@ -30,22 +36,10 @@ export class NetworkComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.getNetworkData();
-    this.options = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalseparator: '.',
-      showLabels: true,
-      showTitle: false,
-      title: 'Interactions',
-      useBom: true,
-      headers: Object.keys(this.interactions[0]),
-      useHeader: false,
-      nullToEmptyString: true,
-    };
   }
 
   ngAfterViewInit() {
-    this.filteredInteractions = this.interactions;
+    // this.filteredInteractions = this.interactions;
     this.initNetwork();
   }
 
@@ -55,19 +49,9 @@ export class NetworkComponent implements OnInit, AfterViewInit {
     this.createNetwork();
   }
 
-  exportCSV() {
-    new AngularCsv(this.interactions, 'Interactions', this.options);
-  }
-
   filterData() {
     this.spinnerService.show();
-    this.getNetworkData(this.filter);
-
-    if (this.filter == 0) {
-      this.filteredInteractions = this.interactions;
-      this.initNetwork();
-    }
-    this.spinnerService.hide();
+    this.getNetworkData();
   }
 
   getNetworkData(round?) {
@@ -78,11 +62,12 @@ export class NetworkComponent implements OnInit, AfterViewInit {
       .set('diameter', 'true')
       .set('radius', 'true')
       .set('reciprocity', 'true');
-    console.log(round)
-    if (round) {
-      params = params.append('round', round);
-      console.log(params.get('round'))
-    }
+
+    Object.keys(this.filters).forEach(key => {
+      if (this.filters[key])
+        params = params.append(key, this.filters[key]);
+    })
+
     this.httpService.get(`research/${this.research.id}/network`, params).subscribe({
       next: (res) => {
         this.networkData = res;
@@ -96,7 +81,8 @@ export class NetworkComponent implements OnInit, AfterViewInit {
         else {
           this.centrality = null;
         };
-        this.filteredInteractions = this.networkData.interactions;
+        this.nodesFromBE = this.networkData.graph.nodes;
+        this.edgesFromBE = this.networkData.graph.edges;
         this.initNetwork();
         this.spinnerService.hide();
       },
@@ -110,36 +96,30 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   initEdges() {
     this.edges.clear();
     let i = 0;
-    this.filteredInteractions.map((interaction) => {
+    this.edgesFromBE.forEach(edge => {
       let edgeColor;
-      if (interaction.score == 0)
+      if (edge[2] == 0)
         edgeColor = '#FF0000';
-      else if (interaction.score == 1)
+      else if (edge[2] == 1)
         edgeColor = '#00FF00';
-      else if (interaction.score == 2)
+      else if (edge[2] == 2)
         edgeColor = '#0000FF';
       else edgeColor = '#848484';
 
-      this.edges.add([{ id: i++, from: interaction.source, to: interaction.target, width: ((interaction.score + 1)), color: { color: edgeColor } }]);
+      this.edges.add([{ id: i++, from: edge[0], to: edge[1], width: ((edge[2] + 1)), color: { color: edgeColor } }]);
     });
   }
 
   initNodes() {
     this.nodes.clear();
-    this.filteredInteractions.map((interaction) => {
-      try {
-        this.nodes.add([
-          { id: interaction.source, label: interaction.source, group: 1 },
-        ]);
-        this.nodes.add([
-          { id: interaction.target, label: interaction.target, group: 1 },
-        ]);
-      } catch { }
+    this.nodesFromBE.forEach(node => {
+      this.nodes.add([
+        { id: node, label: node, group: 1 },
+      ]);
     });
   }
 
   createNetwork() {
-    // create a network
     var container = document.getElementById("mynetwork");
     var data = {
       nodes: this.nodes,

@@ -32,14 +32,11 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-6  d-flex align-items-center justify-content-center">
-        <button class=" btn btn-primary" (click)="exportCSV()">DOWNLOAD CSV</button>
-    </div>
     <div class="col-sm-6">
         <p>
             <mat-form-field class="w-50 mt-5" appearance="fill">
                 <mat-label>Filter Rounds</mat-label>
-                <mat-select id="agent_bahavior" [(value)]="filter" (selectionChange)="filterData()">
+                <mat-select id="agent_bahavior" [(value)]="filters.round" (selectionChange)="filterData()">
                     <mat-option [value]="0">
                         All Rounds
                     </mat-option>

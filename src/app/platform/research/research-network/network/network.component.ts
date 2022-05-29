@@ -6,14 +6,13 @@ import { SpinnerService } from 'src/app/core/services/spinner.service';
 import { HttpService } from 'src/app/core/services/http.service';
 import { HttpParams } from '@angular/common/http';
 import { Research } from 'src/app/core/interfaces/Research';
-import { AngularCsv } from 'angular-csv-ext/dist/Angular-csv';
 
 @Component({
   selector: 'app-network',
   templateUrl: './network.component.html',
   styleUrls: ['./network.component.css']
 })
-export class NetworkComponent implements OnInit, AfterViewInit {
+export class NetworkComponent implements OnInit {
   // interactions: Interaction[];
   @Input() research: Research;
 
@@ -24,7 +23,9 @@ export class NetworkComponent implements OnInit, AfterViewInit {
 
   filters = {
     round: 0,
-    player: ""
+    player: 0,
+    knowledge: -1,
+    duplicates: true
   }
 
   networkData;
@@ -35,12 +36,8 @@ export class NetworkComponent implements OnInit, AfterViewInit {
   constructor(public spinnerService: SpinnerService, private httpService: HttpService) { }
 
   ngOnInit(): void {
+    this.spinnerService.show();
     this.getNetworkData();
-  }
-
-  ngAfterViewInit() {
-    // this.filteredInteractions = this.interactions;
-    this.initNetwork();
   }
 
   initNetwork() {
@@ -93,18 +90,58 @@ export class NetworkComponent implements OnInit, AfterViewInit {
     })
   }
 
+  filterEdges() {
+    let tempEdges = this.edgesFromBE;
+
+    /*** TBD: Fix this filter, right now it works when it is selected alone, when
+     ***      selected with more filters it is breaking ***/
+    // if (!this.filters.duplicates) {
+    //   tempEdges = tempEdges.filter((value, index) => {
+    //     const _value = JSON.stringify({ source: value[0], target: value[1] });
+    //     const _value2 = JSON.stringify({ source: value[1], target: value[0] });
+    //     return index === tempEdges.findIndex(obj => {
+    //       return JSON.stringify({ source: obj[0], target: obj[1] }) === _value
+    //         || JSON.stringify({ source: obj[0], target: obj[1] }) === _value2;
+    //     });
+    //   });
+
+    //   tempEdges = tempEdges.map(edge => {
+    //     edge[2].weight = -1;
+    //     return edge;
+    //   });
+    // }
+
+    if (this.filters.player) {
+      const player = this.filters.player;
+      tempEdges = tempEdges.filter(edge => {
+        return edge[0] == player || edge[1] == player;
+      });
+    }
+
+    if (this.filters.knowledge != -1) {
+      const knowledge = this.filters.knowledge;
+      tempEdges = tempEdges.filter(edge => {
+        return edge[2].weight == knowledge;
+      });
+    }
+
+    return tempEdges;
+  }
+
   initEdges() {
     this.edges.clear();
+    const tempEdges = this.filterEdges();
+
     let i = 0;
-    this.edgesFromBE.forEach(edge => {
+    tempEdges.forEach(edge => {
       let edgeColor;
-      if (edge[2] == 0)
+      if (edge[2].weight == 0)
         edgeColor = '#FF0000';
-      else if (edge[2] == 1)
+      else if (edge[2].weight == 1)
         edgeColor = '#00FF00';
-      else if (edge[2] == 2)
+      else if (edge[2].weight == 2)
         edgeColor = '#0000FF';
-      else edgeColor = '#848484';
+      else edgeColor = '#000000';
 
       this.edges.add([{ id: i++, from: edge[0], to: edge[1], width: ((edge[2] + 1)), color: { color: edgeColor } }]);
     });
@@ -140,7 +177,11 @@ export class NetworkComponent implements OnInit, AfterViewInit {
         maxVelocity: 146,
         solver: "forceAtlas2Based",
         timestep: 0.35,
-        stabilization: { iterations: 150 },
+        stabilization: {
+          enabled: true,
+          iterations: 5,
+          updateInterval: 25
+        },
       },
       edges: {
         arrows: {
@@ -156,8 +197,12 @@ export class NetworkComponent implements OnInit, AfterViewInit {
         }
       }
     };
-    if (container)
+    if (container) {
       var network = new Network(container, data, options);
+      network.on("stabilizationIterationsDone", function () {
+        network.setOptions({ physics: false });
+      });
+    }
   }
 }
 

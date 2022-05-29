@@ -28,7 +28,6 @@ export class ResearchesListComponent implements OnInit {
   constructor(private httpService: HttpService, private authService: AuthService, private router: Router, public spinnerService: SpinnerService) { }
 
   ngOnInit(): void {
-    //this.firstname = this.authService.loggedUserData.first_name;
     this.firstname = this.authService.loggedUserData.first_name;
     this.getResearches();
   }
@@ -38,8 +37,6 @@ export class ResearchesListComponent implements OnInit {
     this.httpService.get('profiles/' + this.authService.loggedUserData.id + '/details').subscribe({
       next: (res) => {
         this.researches = res.researches;
-        // if (this.researches[0])
-          // this.researches[0].game_configuration.start_time = new Date(this.researches[0].game_configuration.start_time);
         this.researches_filtered = this.researches;
         this.spinnerService.hide();
       },

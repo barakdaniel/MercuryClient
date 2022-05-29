@@ -1,6 +1,9 @@
 <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
 
 <div class="row text-center">
+    <span class="text-danger">*The below data is regarding the round filter only</span>
+</div>
+<div class="row text-center">
     <div *ngIf="centrality" class="text-center  col-sm-4 border-bottom mt-3 ">
         <div class="text-secondary h5">Betweens</div>
         <div class="h5">{{centrality.name}} : {{centrality.value.toFixed(5)}}</div>
@@ -48,6 +51,59 @@
                     </mat-option>
                     <mat-option [value]="3">
                         Round 3
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+    </div>
+    <div class="col-sm-6">
+        <p>
+            <mat-form-field class="w-50 mt-5" appearance="fill">
+                <mat-label>Player</mat-label>
+                <mat-select id="agent_bahavior" [(value)]="filters.player" (selectionChange)="filterData()">
+                    <mat-option [value]="0">
+                        None
+                    </mat-option>
+                    <ng-container *ngFor="let node of nodesFromBE">
+                        <mat-option [value]="node">
+                            {{node}}
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
+            </mat-form-field>
+        </p>
+    </div>
+    <div class="col-sm-6">
+        <p>
+            <mat-form-field class="w-50 mt-5" appearance="fill">
+                <mat-label>Knowledge Type</mat-label>
+                <mat-select id="agent_bahavior" [(value)]="filters.knowledge" (selectionChange)="filterData()">
+                    <mat-option [value]="-1">
+                        All
+                    </mat-option>
+                    <mat-option [value]="0">
+                        Trivial
+                    </mat-option>
+                    <mat-option [value]="1">
+                        Common
+                    </mat-option>
+                    <mat-option [value]="2">
+                        Hidden
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </p>
+    </div>
+    <div class="col-sm-6">
+        <p>
+            <mat-form-field class="w-50 mt-5" appearance="fill">
+                <mat-label>Show Duplicate Edges</mat-label>
+                <mat-select id="agent_bahavior" [(value)]="filters.duplicates" (selectionChange)="filterData()">
+                    <mat-option [value]="true">
+                        Yes
+                    </mat-option>
+                    <mat-option [value]="false">
+                        No
                     </mat-option>
                 </mat-select>
             </mat-form-field>

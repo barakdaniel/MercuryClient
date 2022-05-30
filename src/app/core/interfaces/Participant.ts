@@ -1,3 +1,4 @@
+import { Clue } from "./Clue";
 import { GameAppearance } from "./GameAppearance";
 
 export interface Participant {
@@ -8,5 +9,6 @@ export interface Participant {
     was_killer: boolean;
     killer_round: number;
     game_appearance: GameAppearance;
+    clue: Clue[];
 }
 

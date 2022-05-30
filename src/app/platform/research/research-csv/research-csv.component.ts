@@ -16,7 +16,23 @@ export class ResearchCsvComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  exportCSV(type: string) {
+  generateKeys(obj: any) {
+    let keys = [];
+
+    Object.keys(obj).forEach(key => {
+      const _value = obj[key];
+      if (_value) {
+        if (typeof (_value) == "object")
+          keys = keys.concat(this.generateKeys(_value));
+      }
+      else
+        keys.push(key);
+    });
+
+    return keys;
+  }
+
+  exportInteractionsCSV(type: string) {
     const options = {
       fieldSeparator: ',',
       quoteStrings: '"',
@@ -30,6 +46,26 @@ export class ResearchCsvComponent implements OnInit {
       nullToEmptyString: true,
     };
     new AngularCsv(this.research[type.toLowerCase()], type, options);
+  }
+
+  exportParticipantsCSV(type: string) {
+
+    const csvHeaders = this.generateKeys(this.research[type.toLowerCase()][0]);
+    console.log(csvHeaders);
+
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: type,
+      useBom: true,
+      headers: csvHeaders,
+      useHeader: false,
+      nullToEmptyString: true,
+    };
+    // new AngularCsv(this.research[type.toLowerCase()], type, options);
   }
 
   exportHistoryCSV() {

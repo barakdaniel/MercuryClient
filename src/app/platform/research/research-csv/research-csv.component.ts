@@ -21,38 +21,40 @@ export class ResearchCsvComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerService.show();
-    this.initParticipants();
     this.getNetworkData();
+    this.initParticipants();
   }
 
   initParticipants() {
     this.research.participants.forEach((participant: Participant) => {
-      this.participants.push({
-        id: participant.id,
-        email: participant.email,
-        character_name: participant.character_name,
-        was_killer: participant.was_killer,
-        killer_round: participant.killer_round,
-        hair_color: participant.game_appearance.hair,
-        gender: participant.game_appearance.gender,
-        skin_color: participant.game_appearance.color,
-        item: participant.game_appearance.items,
-        clue_1_round: participant.clue[0]?.round,
-        clue_1_message: participant.clue[0]?.message,
-        clue_2_round: participant.clue[1]?.round,
-        clue_2_message: participant.clue[1]?.message,
-        clue_3_round: participant.clue[2]?.round,
-        clue_3_meesage: participant.clue[2]?.message,
-      })
+      try {
+        this.participants.push({
+          id: participant.id,
+          email: participant.email,
+          character_name: participant.character_name,
+          was_killer: participant.was_killer,
+          killer_round: participant.killer_round,
+          hair_color: participant.game_appearance.hair,
+          gender: participant.game_appearance.gender,
+          skin_color: participant.game_appearance.color,
+          item: participant.game_appearance.items,
+          clue_1_round: participant.clue[0]?.round,
+          clue_1_message: participant.clue[0]?.message,
+          clue_2_round: participant.clue[1]?.round,
+          clue_2_message: participant.clue[1]?.message,
+          clue_3_round: participant.clue[2]?.round,
+          clue_3_meesage: participant.clue[2]?.message,
+        })
+      } catch { }
     });
   }
 
   getNetworkData() {
     this.spinnerService.show();
-
     this.httpService.get(`research/${this.research.id}/details/interactions/`).subscribe({
       next: (res) => {
         this.interactions = res;
+        this.spinnerService.hide();
       },
       error: (err) => {
         console.log(err);
@@ -60,8 +62,6 @@ export class ResearchCsvComponent implements OnInit {
       }
     })
   }
-
-
 
   generateKeys(obj: any) {
     let keys = [];

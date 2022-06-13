@@ -1,49 +1,67 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <ng-container matColumnDef="email">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.email">{{element.email}}</ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="character_name">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.character_name}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.character_name">{{element.character_name}}</ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="killer">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Killer(round) </th>
         <td mat-cell *matCellDef="let element">
-            <div *ngIf="element.was_killer">{{element.killer_round}}</div>
-            <div *ngIf="!element.was_killer">0</div>
+            <ng-container *ngIf="element.killer_round">
+                <div *ngIf="element.was_killer">
+                    {{element.killer_round}}
+                </div>
+                <div *ngIf="!element.was_killer">0</div>
+            </ng-container>
         </td>
     </ng-container>
 
     <ng-container matColumnDef="game_appearance.hair">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Hair Color </th>
-        <td mat-cell *matCellDef="let element"> {{element.game_appearance.hair}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.game_appearance">{{element.game_appearance.hair}}</ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="game_appearance.gender">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Gender </th>
-        <td mat-cell *matCellDef="let element"> {{element.game_appearance.gender}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.game_appearance">{{element.game_appearance.gender}}</ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="game_appearance.color">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Skin Color </th>
-        <td mat-cell *matCellDef="let element"> {{element.game_appearance.color}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.game_appearance">{{element.game_appearance.color}}</ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="game_appearance.items">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Item </th>
-        <td mat-cell *matCellDef="let element"> {{element.game_appearance.items}} </td>
+        <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.game_appearance">{{element.game_appearance.items}}</ng-container>
+        </td>
     </ng-container>
 
     <ng-container matColumnDef="clue">
         <th class="text-center" mat-header-cell *matHeaderCellDef> Clues(hidden) </th>
         <!-- <td mat-cell *matCellDef="let element"> {{element.game_appearance.items}} </td> -->
         <td mat-cell *matCellDef="let element">
-            <p>1. {{element.clue[0].message}}</p>
-            <p>2. {{element.clue[1].message}}</p>
-            <p>3. {{element.clue[2].message}}</p>
+            <ng-container *ngIf="element.clue[0]">
+                <p>1. {{element.clue[0].message}}</p>
+                <p>2. {{element.clue[1].message}}</p>
+                <p>3. {{element.clue[2].message}}</p>
+            </ng-container>
         </td>
     </ng-container>
 

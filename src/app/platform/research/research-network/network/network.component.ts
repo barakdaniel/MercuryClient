@@ -25,7 +25,6 @@ export class NetworkComponent implements OnInit {
     round: 0,
     player: 0,
     knowledge: -1,
-    duplicates: true
   }
 
   networkData;
@@ -104,22 +103,6 @@ export class NetworkComponent implements OnInit {
       const knowledge = this.filters.knowledge;
       tempEdges = tempEdges.filter(edge => {
         return edge[2].weight == knowledge;
-      });
-    }
-
-    if (!this.filters.duplicates) {
-      tempEdges = tempEdges.filter((value, index) => {
-        const _value = JSON.stringify({ source: value[0], target: value[1] });
-        const _value2 = JSON.stringify({ source: value[1], target: value[0] });
-        return index === tempEdges.findIndex(obj => {
-          return JSON.stringify({ source: obj[0], target: obj[1] }) === _value
-            || JSON.stringify({ source: obj[0], target: obj[1] }) === _value2;
-        });
-      });
-
-      tempEdges = tempEdges.map(edge => {
-        edge[2].weight = -1;
-        return edge;
       });
     }
 

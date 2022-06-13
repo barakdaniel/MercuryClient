@@ -49,7 +49,7 @@ export class ResearchCreateComponent implements OnInit {
   }
 
   submit() {
-    if (this.participantsForm.invalid || this.participantsControls.length < 5 || this.participantsControls.length > 10) {
+    if (this.participantsForm.invalid || this.participantsControls.length < 5) {
       this.participantsForm.markAllAsTouched();
       this.participantsFormInvalid = true;
       return;

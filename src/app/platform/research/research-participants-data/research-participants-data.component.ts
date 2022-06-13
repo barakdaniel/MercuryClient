@@ -21,7 +21,8 @@ export class ResearchParticipantsDataComponent implements OnInit {
   ngOnInit(): void {
     //this.dataSource = this.research.participants;
     this.research.participants.forEach(participant => {
-      this.ELEMENT_DATA.push(participant);
+      if (participant.character_name)
+        this.ELEMENT_DATA.push(participant);
     });
     this.dataSource = this.ELEMENT_DATA;
   }

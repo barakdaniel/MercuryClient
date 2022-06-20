@@ -110,7 +110,7 @@ export class NetworkComponent implements OnInit {
   }
 
   initEdges() {
-    this.edges.clear();
+    this.edges = new DataSet<any>();
     const tempEdges = this.filterEdges();
 
     let i = 0;

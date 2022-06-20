@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Network } from "vis-network/peer/esm/vis-network";
 import { DataSet } from "vis-data/peer/esm/vis-data";
 import { Interaction } from 'src/app/core/interfaces/Interaction';
@@ -13,7 +13,6 @@ import { Research } from 'src/app/core/interfaces/Research';
   styleUrls: ['./network.component.css']
 })
 export class NetworkComponent implements OnInit {
-  // interactions: Interaction[];
   @Input() research: Research;
 
   nodes = new DataSet<any>();
@@ -30,7 +29,6 @@ export class NetworkComponent implements OnInit {
   networkData;
   centrality: { name: string, value: number };
   filteredInteractions: Interaction[];
-  options;
 
   constructor(public spinnerService: SpinnerService, private httpService: HttpService) { }
 
@@ -79,6 +77,8 @@ export class NetworkComponent implements OnInit {
         };
         this.nodesFromBE = this.networkData.graph.nodes;
         this.edgesFromBE = this.networkData.graph.edges;
+        if (!this.networkData.node_count) this.networkData.node_count = this.networkData.graph.nodes.length;
+        if (!this.networkData.edges_count) this.networkData.edges_count = this.networkData.graph.edges.length;
         this.initNetwork();
         this.spinnerService.hide();
       },
@@ -110,7 +110,7 @@ export class NetworkComponent implements OnInit {
   }
 
   initEdges() {
-    this.edges.clear();
+    this.edges = new DataSet<any>();
     const tempEdges = this.filterEdges();
 
     let i = 0;
@@ -124,7 +124,12 @@ export class NetworkComponent implements OnInit {
         edgeColor = '#0000FF';
       else edgeColor = '#000000';
 
-      this.edges.add([{ id: i++, from: edge[0], to: edge[1], width: ((edge[2] + 1)), color: { color: edgeColor } }]);
+      this.edges.add([{
+        id: i++,
+        from: edge[0],
+        to: edge[1],
+        color: { color: edgeColor },
+      }]);
     });
   }
 
@@ -146,7 +151,7 @@ export class NetworkComponent implements OnInit {
     var options = {
       nodes: {
         shape: "dot",
-        size: 16,
+        size: 24,
       },
       physics: {
         forceAtlas2Based: {

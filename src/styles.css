@@ -35,7 +35,7 @@ body {
 }
 
 .overlay {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -50,4 +50,6 @@ mat-progress-spinner {
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 3;
-}@import '~mdb-angular-ui-kit/assets/scss/mdb.scss';
+}
+
+@import '~mdb-angular-ui-kit/assets/scss/mdb.scss';
